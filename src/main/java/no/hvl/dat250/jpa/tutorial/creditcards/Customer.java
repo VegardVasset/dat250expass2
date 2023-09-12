@@ -1,7 +1,12 @@
 package no.hvl.dat250.jpa.tutorial.creditcards;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 public class Customer {
@@ -9,18 +14,31 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public String getName() {
-        // TODO: implement method!
-        return null;
+    @Setter
+    @Getter
+    private String name;
+    @Getter
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    private Collection<Address> addresses = new ArrayList<>();
+    @Getter
+    @ManyToMany
+    private Collection<CreditCard> creditCards = new HashSet<>();
+
+    public Customer(String name) {
+        this.name = name;
     }
 
-    public Collection<Address> getAddresses() {
-        // TODO: implement method!
-        return null;
+    public Customer() {
+
     }
 
-    public Collection<CreditCard> getCreditCards() {
-        // TODO: implement method!
-        return null;
+
+    public void addAddress(Address address) {
+        addresses.add(address);
+    }
+
+
+    public void addCreditCard(CreditCard creditCard) {
+        creditCards.add(creditCard);
     }
 }
